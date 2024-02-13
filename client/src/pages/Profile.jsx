@@ -11,6 +11,7 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  updateUserLoad,
 } from "../redux/user/userSlice";
 
 export default function App() {
@@ -32,7 +33,11 @@ export default function App() {
     if (file) {
       handleFileUpload(file);
     }
-  }, [file]);
+
+    return () => {
+      dispatch(updateUserLoad());
+    };
+  }, [file, dispatch]);
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -66,7 +71,7 @@ export default function App() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`/api/user/update/${currentUser._id}1`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
