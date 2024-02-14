@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess, signInFailure, signInLoad } from "../redux/user/userSlice";
+import { clearErrorMessage, setErrorMessage, startLoading, updateUserSuccess } from "../redux/user/userSlice";
 import OAuth from '../components/OAuth';
 
 export default function SignIn() {
@@ -10,10 +10,9 @@ export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     return () => {
-      dispatch(signInLoad());
+      dispatch(clearErrorMessage());
     };
   }, [dispatch]);
 
@@ -26,9 +25,8 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      dispatch(signInStart())
+      dispatch(startLoading())
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -40,13 +38,13 @@ export default function SignIn() {
       const data = await res.json();
 
       if (data.success === false) {
-        dispatch(signInFailure(data.message));
+        dispatch(setErrorMessage(data.message));
         return;
       }
-      dispatch(signInSuccess(data));
+      dispatch(updateUserSuccess(data));
       navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      dispatch(setErrorMessage(error.message));
     }
   };
 

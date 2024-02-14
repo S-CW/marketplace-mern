@@ -7,18 +7,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import {
-  updateUserStart,
-  updateUserSuccess,
-  updateUserFailure,
-  updateUserLoad,
-  deleteUserFailure,
-  deleteUserStart,
-  deleteUserSuccess,
-  signOutUserStart,
-  signOutUserFailure,
-  signOutUserSuccess,
-} from "../redux/user/userSlice";
+import { clearErrorMessage, clearUser, setErrorMessage, startLoading, updateUserSuccess } from "../redux/user/userSlice";
+import { set } from "mongoose";
 
 export default function App() {
   const fileRef = useRef(null);
@@ -41,7 +31,7 @@ export default function App() {
     }
 
     return () => {
-      dispatch(updateUserLoad());
+      dispatch(clearErrorMessage());
     };
   }, [file, dispatch]);
 
@@ -70,14 +60,15 @@ export default function App() {
   };
 
   const handleChange = (e) => {
+    setUpdateSuccess(false);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}1`, {
+      dispatch(startLoading());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,48 +78,49 @@ export default function App() {
 
       const data = await res.json();
       if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
+        dispatch(setErrorMessage(data.message));
         return;
       }
 
       dispatch(updateUserSuccess(data));
+      setFilePct(0);
       setUpdateSuccess(true);
     } catch (error) {
-      dispatch(updateUserFailure(error.message));
+      dispatch(setErrorMessage(error.message));
     }
   };
 
   const handleDeleteUser = async () => {
     try {
-      dispatch(deleteUserStart());
+      dispatch(startLoading());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: "DELETE",
       });
 
       const data = res.json();
       if (data.success === false) {
-        dispatch(deleteUserFailure(data.error));
+        dispatch(setErrorMessage(data.error));
         return;
       }
-      dispatch(deleteUserSuccess());
+      dispatch(clearUser());
     } catch (error) {
-      dispatch(deleteUserFailure(error.message));
+      dispatch(setErrorMessage(error.message));
     }
   };
 
   const handleSignOut = async () => {
     try {
-      dispatch(signOutUserStart());
+      dispatch(startLoading());
       const res = await fetch('/api/auth/signout');
       const data = res.json();
       if (data.success === false) {
-        dispatch(signOutUserFailure(data.message));
+        dispatch(setErrorMessage(data.message));
         return;
       }
 
-      dispatch(signOutUserSuccess());
+      dispatch(clearUser());
     } catch (error) {
-      dispatch(signOutUserFailure(error.message));
+      dispatch(setErrorMessage(error.message));
     }
   }
   return (
@@ -191,7 +183,7 @@ export default function App() {
           {loading ? "Loading..." : "Update"}
         </button>
       </form>
-      <div className="flex justify-between mt-5">
+      <div className="flex justify-between">
         <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
         <span onClick={handleSignOut} className="text-red-700 cursor-pointer">Sign out</span>
       </div>
