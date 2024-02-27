@@ -8,7 +8,7 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { clearErrorMessage, clearUser, setErrorMessage, startLoading, updateUserSuccess } from "../redux/user/userSlice";
-import { set } from "mongoose";
+import { Link } from 'react-router-dom';
 
 export default function App() {
   const fileRef = useRef(null);
@@ -182,8 +182,11 @@ export default function App() {
         >
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95" to={"/create-listing"}>
+          Create Listing
+        </Link>
       </form>
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-5">
         <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
         <span onClick={handleSignOut} className="text-red-700 cursor-pointer">Sign out</span>
       </div>
