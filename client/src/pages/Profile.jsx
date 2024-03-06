@@ -16,8 +16,9 @@ import {
 } from "../redux/user/userSlice";
 import { Link } from "react-router-dom";
 
-export default function App() {
+export default function Profile() {
   const fileRef = useRef(null);
+  const listingRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [file, setFile] = useState(undefined);
   const [filePct, setFilePct] = useState(0);
@@ -38,10 +39,13 @@ export default function App() {
       handleFileUpload(file);
     }
 
+    if (userListings) {
+      listingRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
     return () => {
       dispatch(clearErrorMessage());
     };
-  }, [file, dispatch]);
+  }, [file, dispatch, userListings]);
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -250,15 +254,17 @@ export default function App() {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User is updated successfully" : ""}
       </p>
-      <button onClick={handleShowListings} className="text-green-700 w-full">
-        Show Listings
-      </button>
+      <div className="flex justify-center">
+        <button onClick={handleShowListings} className="text-green-700">
+          {userListings.length < 1 ? "Show Listings" : ""}
+        </button>
+      </div>
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listings" : ""}
       </p>
 
       {userListings && userListings.length > 0 && (
-        <div className="flex flex-col gap-4">
+        <div ref={listingRef} className="flex flex-col gap-4">
           <h1 className="text-center mt-7 text-2xl font-semibold">
             Your Listings
           </h1>

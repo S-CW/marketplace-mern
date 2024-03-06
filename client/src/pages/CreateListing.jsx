@@ -73,7 +73,7 @@ export default function CreateListing() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(progress);
+          console.log(`Upload is ${progress}% done`);
         },
         (error) => {
           reject(error);
@@ -187,11 +187,13 @@ export default function CreateListing() {
             placeholder="Description"
             onChange={handleChange}
             value={formData.description}
+            rows={5}
+            style={{ resize: "none" }}
           />
           <input
             className="border p-3 rounded-lg"
             id="address"
-            maxLength="62"
+            maxLength="255"
             minLength="10"
             required
             type="text"
@@ -291,7 +293,9 @@ export default function CreateListing() {
               />
               <div className="flex flex-col items-center">
                 <p>Regular price</p>
-                <span className="text-xs">($ / month)</span>
+                {formData.type === "rent" && (
+                  <span className="text-xs">($ / month)</span>
+                )}
               </div>
             </div>
             {/* show discounted price field when offer checkbox is tick */}
@@ -309,7 +313,9 @@ export default function CreateListing() {
                 />
                 <div className="flex flex-col items-center">
                   <p>Discounted price</p>
-                  <span className="text-xs">($ / month)</span>
+                  {formData.type === "rent" && (
+                    <span className="text-xs">($ / month)</span>
+                  )}
                 </div>
               </div>
             )}
