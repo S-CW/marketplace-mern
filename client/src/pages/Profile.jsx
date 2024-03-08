@@ -15,8 +15,11 @@ import {
   updateUserSuccess,
 } from "../redux/user/userSlice";
 import { Link } from "react-router-dom";
+import DeleteConfirmation from "../components/DeleteConfirmation";
+import toast from "react-hot-toast";
 
 export default function Profile() {
+  const dispatch = useDispatch();
   const fileRef = useRef(null);
   const listingRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -27,7 +30,8 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
-  const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = useState(null);
+  const [id, setId] = useState(null);
 
   // allow read;
   // allow write: if
@@ -115,6 +119,8 @@ export default function Profile() {
         return;
       }
       dispatch(clearUser());
+      setOpenDialog(false);
+      toast.success("Congratulation, you have successfully deleted yourself!");
     } catch (error) {
       dispatch(setErrorMessage(error.message));
     }
@@ -131,6 +137,7 @@ export default function Profile() {
       }
 
       dispatch(clearUser());
+      toast.success("Sign out successfully");
     } catch (error) {
       dispatch(setErrorMessage(error.message));
     }
@@ -161,15 +168,17 @@ export default function Profile() {
       const data = await res.json();
 
       if (data.success === false) {
-        console.log(data.message);
+        toast.error(data.message);
         return;
       }
 
       setUserListings((prev) =>
         prev.filter((listing) => listing._id !== listingId)
       );
+      setOpenDialog(false);
+      toast.success("Successfully deleted listing!");
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -241,7 +250,10 @@ export default function Profile() {
       </form>
       <div className="flex justify-between mt-5">
         <span
-          onClick={handleDeleteUser}
+          onClick={() => {
+            setId(currentUser._id);
+            setOpenDialog("user");
+          }}
           className="text-red-700 cursor-pointer"
         >
           Delete account
@@ -289,7 +301,10 @@ export default function Profile() {
 
               <div className="flex flex-col item-center">
                 <button
-                  onClick={() => handleListingDelete(listing._id)}
+                  onClick={() => {
+                    setId(listing._id);
+                    setOpenDialog("listing");
+                  }}
                   className="text-red-700 uppercase"
                 >
                   Delete
@@ -302,6 +317,24 @@ export default function Profile() {
           ))}
         </div>
       )}
+      <DeleteConfirmation
+        isOpen={openDialog === "user"}
+        remove={handleDeleteUser}
+        cancel={() => setOpenDialog(false)}
+        messageTitle="Delete User"
+        messageContent="Are you sure you want to delete your account?
+        All data will be deleted. This action cannot be undone."
+        id={id}
+      />
+      <DeleteConfirmation
+        isOpen={openDialog === "listing"}
+        remove={handleListingDelete}
+        cancel={() => setOpenDialog(false)}
+        messageTitle="Delete Listing"
+        messageContent="Are you sure you want to delete the selected listing?
+        Listing will be remove. This action cannot be undone."
+        id={id}
+      />
     </div>
   );
 }
