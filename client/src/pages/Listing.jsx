@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
+import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
 import {
@@ -12,15 +13,17 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import Contact from "../components/Contact";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
   const params = useParams();
+  const {currentUser} = useSelector((state) => state.user);
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
-  
+  const [contact, setContact] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -77,7 +80,7 @@ export default function Listing() {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className='fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer'>
+          <div className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer">
             <FaShare
               className="text-slate-500 text-xl"
               onClick={() => {
@@ -90,7 +93,9 @@ export default function Listing() {
             />
           </div>
           {copied && (
-            <p className="fixed bottom-[5%] right-[37%] z-10 rounded-md bg-slate-200 p-2 sm:top-[19%] sm:right-[3%]">Link copied</p>
+            <p className="fixed bottom-[5%] right-[37%] z-10 rounded-md bg-slate-200 p-2 sm:bottom-[73%] sm:right-[3%]">
+              Link copied
+            </p>
           )}
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl font-semibold">
@@ -140,6 +145,12 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Not Furnished"}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button onClick={() => setContact(true)} className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3">
+                Contact landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
