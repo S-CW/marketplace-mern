@@ -1,0 +1,17 @@
+_id: env_a5f69292d5c34aeb95c71d6e1fceb4da
+type: Environment
+parentId: env_b539740030e54f59d2bab8af6b45415bb7532814
+modified: 1711468629501
+created: 1707290532404
+name: dev
+data:
+  api_endpoint: http://localhost:3080/api
+  user_id: "{% response 'body', 'req_23ac8724464243fdb63fdba9ddceeead',
+    'b64::JC5faWQ=::46b', 'never', 60 %}"
+dataPropertyOrder:
+  "&":
+    - api_endpoint
+    - user_id
+color: null
+isPrivate: false
+metaSortKey: 1707290532404

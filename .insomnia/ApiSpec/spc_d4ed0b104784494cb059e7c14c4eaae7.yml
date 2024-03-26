@@ -1,0 +1,211 @@
+_id: spc_d4ed0b104784494cb059e7c14c4eaae7
+type: ApiSpec
+parentId: wrk_cb21df0390fe41c68b87723ddb3f12b9
+modified: 1711468396131
+created: 1711468396131
+fileName: New Document
+contents: "{\"_type\":\"export\",\"__export_format\":4,\"__export_date\":\"2024\
+  -03-26T15:33:07.725Z\",\"__export_source\":\"insomnia.desktop.app:v2023.5.8\",\
+  \"resources\":[{\"_id\":\"req_d5240fe1a614413286b862ec21d8b513\",\"parentId\":\
+  \"fld_31312ae594894974b4cb72199e8fa9b0\",\"modified\":1711098864559,\"created\
+  \":1708998450230,\"url\":\"{{ _.api_endpoint
+  }}/listing/create\",\"name\":\"Create
+  Listing\",\"description\":\"\",\"method\":\"POST\",\"body\":{\"mimeType\":\"a\
+  pplication/json\",\"text\":\"{\\n\\t\\\"name\\\": \\\"Da Villa
+  Ouse\\\",\\n\\t\\\"description\\\": \\\"A very beautiful and wide mansion only
+  for the riches\\\",\\n\\t\\\"address\\\": \\\"Rich Street
+  168\\\",\\n\\t\\\"regularPrice\\\": 500,\\n\\t\\\"discountPrice\\\":
+  500,\\n\\t\\\"bathrooms\\\": 5,\\n\\t\\\"bedrooms\\\":
+  5,\\n\\t\\\"furnished\\\": true,\\n\\t\\\"parking\\\":
+  true,\\n\\t\\\"type\\\": \\\"rent\\\",\\n\\t\\\"offer\\\":
+  true,\\n\\t\\\"imageUrls\\\": [\\\"img1.jpg\\\",
+  \\\"img2.jpg\\\"],\\n\\t\\\"userRef\\\": \\\"{% response 'body',
+  'req_303ddaf192714087aaacfaec3ef0b3a9', 'b64::JC5faWQ=::46b', 'never', 60
+  %}\\\"\\n}\"},\"parameters\":[],\"headers\":[{\"name\":\"Content-Type\",\"val\
+  ue\":\"application/json\"},{\"name\":\"User-Agent\",\"value\":\"insomnia/2023\
+  .5.8\"}],\"authentication\":{},\"metaSortKey\":-1708998450230,\"isPrivate\":f\
+  alse,\"settingStoreCookies\":true,\"settingSendCookies\":true,\"settingDisabl\
+  eRenderRequestBody\":false,\"settingEncodeUrl\":true,\"settingRebuildPath\":t\
+  rue,\"settingFollowRedirects\":\"global\",\"_type\":\"request\"},{\"_id\":\"f\
+  ld_31312ae594894974b4cb72199e8fa9b0\",\"parentId\":\"wrk_272163dac3544a1ab07a\
+  18d5f5cf2245\",\"modified\":1708998434440,\"created\":1708998434440,\"name\":\
+  \"Listing\",\"description\":\"\",\"environment\":{},\"environmentPropertyOrder\
+  \":null,\"metaSortKey\":-1708998434440,\"_type\":\"request_group\"},{\"_id\":\
+  \"wrk_272163dac3544a1ab07a18d5f5cf2245\",\"parentId\":null,\"modified\":17072\
+  90491984,\"created\":1704768035739,\"name\":\"mern
+  marketplace\",\"description\":\"\",\"scope\":\"collection\",\"_type\":\"works\
+  pace\"},{\"_id\":\"req_889c2865027d422e85df994227166527\",\"parentId\":\"fld_\
+  31312ae594894974b4cb72199e8fa9b0\",\"modified\":1709884464402,\"created\":170\
+  9563670109,\"url\":\"{{ _.api_endpoint }}/listing/update/{% request
+  'parameter', 'id', 0 %}\",\"name\":\"Update
+  Listing\",\"description\":\"\",\"method\":\"POST\",\"body\":{\"mimeType\":\"a\
+  pplication/json\",\"text\":\"{\\n\\t\\\"name\\\": \\\"La
+  Villa\\\",\\n\\t\\\"description\\\": \\\"A bery nice
+  place\\\",\\n\\t\\\"address\\\": \\\"No 190, My home
+  Street\\\"\\n}\"},\"parameters\":[{\"id\":\"pair_de7c758e5df243388b69d7fa12a4\
+  daea\",\"name\":\"id\",\"value\":\"{% response 'body',
+  'req_d5240fe1a614413286b862ec21d8b513', 'b64::JC5faWQ=::46b', 'never', 60
+  %}\",\"description\":\"\",\"disabled\":true,\"type\":\"text\",\"multiline\":f\
+  alse}],\"headers\":[{\"name\":\"Content-Type\",\"value\":\"application/json\"\
+  },{\"name\":\"User-Agent\",\"value\":\"insomnia/2023.5.8\"}],\"authentication\
+  \":{},\"metaSortKey\":-1708695968155.625,\"isPrivate\":false,\"settingStoreCo\
+  okies\":true,\"settingSendCookies\":true,\"settingDisableRenderRequestBody\":\
+  false,\"settingEncodeUrl\":true,\"settingRebuildPath\":true,\"settingFollowRe\
+  directs\":\"global\",\"_type\":\"request\"},{\"_id\":\"req_fcaca6fd439b4cd1a3\
+  69c8524d82f857\",\"parentId\":\"fld_31312ae594894974b4cb72199e8fa9b0\",\"modi\
+  fied\":1709884199594,\"created\":1709575819118,\"url\":\"{{ _.api_endpoint
+  }}/listing/get/{% request 'parameter', 'id', 0 %}\",\"name\":\"Get
+  Listing\",\"description\":\"\",\"method\":\"GET\",\"body\":{\"mimeType\":\"ap\
+  plication/json\",\"text\":\"\"},\"parameters\":[{\"id\":\"pair_de7c758e5df243\
+  388b69d7fa12a4daea\",\"name\":\"id\",\"value\":\"{% response 'body',
+  'req_d5240fe1a614413286b862ec21d8b513', 'b64::JC5faWQ=::46b', 'never', 60
+  %}\",\"description\":\"\",\"disabled\":true,\"type\":\"text\",\"multiline\":f\
+  alse}],\"headers\":[{\"name\":\"Content-Type\",\"value\":\"application/json\"\
+  },{\"name\":\"User-Agent\",\"value\":\"insomnia/2023.5.8\"}],\"authentication\
+  \":{},\"metaSortKey\":-1708544727118.4375,\"isPrivate\":false,\"settingStoreC\
+  ookies\":true,\"settingSendCookies\":true,\"settingDisableRenderRequestBody\"\
+  :false,\"settingEncodeUrl\":true,\"settingRebuildPath\":true,\"settingFollowR\
+  edirects\":\"global\",\"_type\":\"request\"},{\"_id\":\"req_c37fd0eb54414c40a\
+  4a025d48a266c0b\",\"parentId\":\"fld_31312ae594894974b4cb72199e8fa9b0\",\"mod\
+  ified\":1709882216185,\"created\":1709513218024,\"url\":\"{{ _.api_endpoint
+  }}/listing/delete/{% request 'parameter', 'id', 0 %}\",\"name\":\"Delete
+  Listing\",\"description\":\"\",\"method\":\"DELETE\",\"body\":{\"mimeType\":\
+  \"application/json\",\"text\":\"\"},\"parameters\":[{\"id\":\"pair_ab069b9092\
+  d54d72b3e317a626de8fe8\",\"name\":\"id\",\"value\":\"{% response 'body',
+  'req_d5240fe1a614413286b862ec21d8b513', 'b64::JC5faWQ=::46b', 'never', 60
+  %}\",\"description\":\"\",\"type\":\"text\",\"multiline\":false,\"disabled\":\
+  true}],\"headers\":[{\"name\":\"Content-Type\",\"value\":\"application/json\"\
+  },{\"name\":\"User-Agent\",\"value\":\"insomnia/2023.5.8\"}],\"authentication\
+  \":{},\"metaSortKey\":-1708393486081.25,\"isPrivate\":false,\"settingStoreCoo\
+  kies\":true,\"settingSendCookies\":true,\"settingDisableRenderRequestBody\":f\
+  alse,\"settingEncodeUrl\":true,\"settingRebuildPath\":true,\"settingFollowRed\
+  irects\":\"global\",\"_type\":\"request\"},{\"_id\":\"req_c48b497d9e8147d8aa4\
+  b42c8796b506c\",\"parentId\":\"fld_14d4943c0d554db2b85c9288a4b3c955\",\"modif\
+  ied\":1709883479152,\"created\":1709285294922,\"url\":\"{{ _.api_endpoint
+  }}/user/listings/{% request 'parameter', 'id', 0 %}\",\"name\":\"User
+  Listings\",\"description\":\"\",\"method\":\"GET\",\"body\":{},\"parameters\"\
+  :[{\"id\":\"pair_80042702f4d74c5691000cccab7c5ffd\",\"name\":\"id\",\"value\":\
+  \"{% response 'body', 'req_303ddaf192714087aaacfaec3ef0b3a9',
+  'b64::JC5faWQ=::46b', 'never', 60
+  %}\",\"description\":\"\",\"disabled\":true}],\"headers\":[{\"name\":\"User-A\
+  gent\",\"value\":\"insomnia/2023.5.8\"}],\"authentication\":{},\"metaSortKey\
+  \":-1707788521932.5,\"isPrivate\":false,\"settingStoreCookies\":true,\"settin\
+  gSendCookies\":true,\"settingDisableRenderRequestBody\":false,\"settingEncode\
+  Url\":true,\"settingRebuildPath\":true,\"settingFollowRedirects\":\"global\",\
+  \"_type\":\"request\"},{\"_id\":\"fld_14d4943c0d554db2b85c9288a4b3c955\",\"pa\
+  rentId\":\"wrk_272163dac3544a1ab07a18d5f5cf2245\",\"modified\":1707788523085,\
+  \"created\":1707788523085,\"name\":\"User\",\"description\":\"\",\"environment\
+  \":{},\"environmentPropertyOrder\":null,\"metaSortKey\":-1707788523085,\"_type\
+  \":\"request_group\"},{\"_id\":\"req_1dcc7b0010c1409f96425d184647c68c\",\"par\
+  entId\":\"fld_14d4943c0d554db2b85c9288a4b3c955\",\"modified\":1709340533365,\
+  \"created\":1707788526429,\"url\":\"{{ _.api_endpoint }}/user/update/{%
+  request 'parameter', 'id', 0 %}\",\"name\":\"Update
+  User\",\"description\":\"\",\"method\":\"POST\",\"body\":{\"mimeType\":\"appl\
+  ication/json\",\"text\":\"{\\n\\t\\\"username\\\":
+  \\\"aaa\\\",\\n\\t\\\"email\\\":
+  \\\"test@gmail.com\\\"\\n}\"},\"parameters\":[{\"id\":\"pair_0f4eca763ceb45e7\
+  8fa1f292a2603267\",\"name\":\"id\",\"value\":\"65cc1d1121ffff08d16073ca\",\"d\
+  escription\":\"\",\"disabled\":true}],\"headers\":[{\"name\":\"Content-Type\",\
+  \"value\":\"application/json\"},{\"name\":\"User-Agent\",\"value\":\"insomnia\
+  /2023.5.8\"}],\"authentication\":{},\"metaSortKey\":-1707788521832.5,\"isPriv\
+  ate\":false,\"settingStoreCookies\":true,\"settingSendCookies\":true,\"settin\
+  gDisableRenderRequestBody\":false,\"settingEncodeUrl\":true,\"settingRebuildP\
+  ath\":true,\"settingFollowRedirects\":\"global\",\"_type\":\"request\"},{\"_id\
+  \":\"req_8ba0af08c8c14a82879f5f64060d5452\",\"parentId\":\"fld_14d4943c0d554d\
+  b2b85c9288a4b3c955\",\"modified\":1709887096616,\"created\":1707873001238,\"u\
+  rl\":\"{{ _.api_endpoint }}/user/delete/{% request 'parameter', 'id', 0
+  %}\",\"name\":\"Delete
+  User\",\"description\":\"\",\"method\":\"DELETE\",\"body\":{\"mimeType\":\"ap\
+  plication/json\",\"text\":\"\"},\"parameters\":[{\"id\":\"pair_e6330f55383a45\
+  69bd352c3066c96a2c\",\"name\":\"id\",\"value\":\"{% response 'body',
+  'req_303ddaf192714087aaacfaec3ef0b3a9', 'b64::JC5faWQ=::46b', 'never', 60
+  %}\",\"description\":\"\",\"disabled\":true}],\"headers\":[{\"name\":\"Conten\
+  t-Type\",\"value\":\"application/json\"},{\"name\":\"User-Agent\",\"value\":\
+  \"insomnia/2023.5.8\"}],\"authentication\":{},\"metaSortKey\":-1707788517236,\
+  \"isPrivate\":false,\"settingStoreCookies\":true,\"settingSendCookies\":true,\
+  \"settingDisableRenderRequestBody\":false,\"settingEncodeUrl\":true,\"setting\
+  RebuildPath\":true,\"settingFollowRedirects\":\"global\",\"_type\":\"request\
+  \"},{\"_id\":\"req_303ddaf192714087aaacfaec3ef0b3a9\",\"parentId\":\"fld_f9de\
+  c4d08a2b4906aeb2ed118b5a8f4c\",\"modified\":1709869547156,\"created\":1707475\
+  668362,\"url\":\"{{ _.api_endpoint }}/auth/signin\",\"name\":\"Sign
+  In\",\"description\":\"\",\"method\":\"POST\",\"body\":{\"mimeType\":\"applic\
+  ation/json\",\"text\":\"{\\n\\t\\\"email\\\":
+  \\\"test@gmail.com\\\",\\n\\t\\\"password\\\":
+  \\\"123\\\"\\n}\"},\"parameters\":[],\"headers\":[{\"name\":\"Content-Type\",\
+  \"value\":\"application/json\"},{\"name\":\"User-Agent\",\"value\":\"insomnia\
+  /2023.5.8\"}],\"authentication\":{},\"metaSortKey\":-1707788508043,\"isPrivate\
+  \":false,\"settingStoreCookies\":true,\"settingSendCookies\":true,\"settingDi\
+  sableRenderRequestBody\":false,\"settingEncodeUrl\":true,\"settingRebuildPath\
+  \":true,\"settingFollowRedirects\":\"global\",\"_type\":\"request\"},{\"_id\":\
+  \"fld_f9dec4d08a2b4906aeb2ed118b5a8f4c\",\"parentId\":\"wrk_272163dac3544a1ab\
+  07a18d5f5cf2245\",\"modified\":1707788495658,\"created\":1707788495658,\"name\
+  \":\"Auth\",\"description\":\"\",\"environment\":{},\"environmentPropertyOrder\
+  \":null,\"metaSortKey\":-1707788495658,\"_type\":\"request_group\"},{\"_id\":\
+  \"req_f504c5289d89488290d0dd3d1d446a73\",\"parentId\":\"fld_f9dec4d08a2b4906a\
+  eb2ed118b5a8f4c\",\"modified\":1709869430943,\"created\":1707290642159,\"url\
+  \":\"{{ _.api_endpoint }}/auth/signup\",\"name\":\"Sign
+  Up\",\"description\":\"\",\"method\":\"POST\",\"body\":{\"mimeType\":\"applic\
+  ation/json\",\"text\":\"{\\n\\t\\\"username\\\":
+  \\\"test\\\",\\n\\t\\\"email\\\":
+  \\\"test@gmail.com\\\",\\n\\t\\\"password\\\":
+  \\\"123\\\"\\n}\"},\"parameters\":[],\"headers\":[{\"name\":\"Content-Type\",\
+  \"value\":\"application/json\"},{\"name\":\"User-Agent\",\"value\":\"insomnia\
+  /2023.5.8\"}],\"authentication\":{},\"metaSortKey\":-1707788507943,\"isPrivate\
+  \":false,\"settingStoreCookies\":true,\"settingSendCookies\":true,\"settingDi\
+  sableRenderRequestBody\":false,\"settingEncodeUrl\":true,\"settingRebuildPath\
+  \":true,\"settingFollowRedirects\":\"global\",\"_type\":\"request\"},{\"_id\":\
+  \"env_1a0f2d0f7d07bba02453237b2799abcf4eaf5b26\",\"parentId\":\"wrk_272163dac\
+  3544a1ab07a18d5f5cf2245\",\"modified\":1704768035749,\"created\":170476803574\
+  9,\"name\":\"Base
+  Environment\",\"data\":{},\"dataPropertyOrder\":null,\"color\":null,\"isPriva\
+  te\":false,\"metaSortKey\":1704768035749,\"_type\":\"environment\"},{\"_id\":\
+  \"jar_1a0f2d0f7d07bba02453237b2799abcf4eaf5b26\",\"parentId\":\"wrk_272163dac\
+  3544a1ab07a18d5f5cf2245\",\"modified\":1710723565729,\"created\":170476803575\
+  2,\"name\":\"Default
+  Jar\",\"cookies\":[{\"key\":\"XSRF-TOKEN\",\"value\":\"eyJpdiI6IlZlMktta2VQbk\
+  c2Z1JZSnBPdjFGMUE9PSIsInZhbHVlIjoiVERNK0hmaUlMa2VWK2t6QmhXd01oZ0R4WE41cG1qRk1\
+  4UGhRblVzVllSb0dqWkFuUkVpcTRFaDdPVVFyNWtGa3VFZWtadytoOHphTjlnRndYd2lDdTVTNVN0\
+  ditta1Y5cGxMQVVySUdJSGgvL3I1V21YZTdPRXRxMVZpQzNxNWMiLCJtYWMiOiI5MjA4YTJlZGJhM\
+  zMzYzZjOTVjODUyNGRjYjMxMzczMzM1MjJiODYyYjJkMzVlZThkMDM4ZDM5NWExYjYwOTlmIiwidG\
+  FnIjoiIn0%3D\",\"expires\":\"2024-01-09T04:48:48.000Z\",\"maxAge\":7200,\"dom\
+  ain\":\"phplaravel-433976-4180907.cloudwaysapps.com\",\"path\":\"/\",\"hostOn\
+  ly\":true,\"creation\":\"2024-01-09T02:48:47.354Z\",\"lastAccessed\":\"2024-0\
+  1-09T02:48:47.354Z\",\"sameSite\":\"lax\",\"id\":\"7633648881250776\"},{\"key\
+  \":\"laravel_session\",\"value\":\"eyJpdiI6Im5QTk1ZV2xVa0MzalVERjNoNFhTbnc9PS\
+  IsInZhbHVlIjoicnBabXlWVkpvM2NVaEJBaGJWdUhwbUsxcG5QNTNyUmRhVSt6Qkp3L043QnFlNlZ\
+  EdnpPRTFNcmFEWVp3dzhDUmpkMUZCK3dVYms2V2NRMnh1TDltL1RCL3Evc2tGNDlOQjQwem16NnUv\
+  SXE1OEVRdGJScnRLNXJtUUhKajllK0YiLCJtYWMiOiI4YzZiN2JlOTM1MzY1ZTIyOTk1ZDdjMjhlY\
+  TE4Zjg4OTZhNjc2YmQ1OThmZWQ3MzE4MTBhODM4M2U0MDdjOTliIiwidGFnIjoiIn0%3D\",\"exp\
+  ires\":\"2024-01-09T04:48:48.000Z\",\"maxAge\":7200,\"domain\":\"phplaravel-4\
+  33976-4180907.cloudwaysapps.com\",\"path\":\"/\",\"httpOnly\":true,\"hostOnly\
+  \":true,\"creation\":\"2024-01-09T02:48:47.356Z\",\"lastAccessed\":\"2024-01-\
+  09T02:48:47.356Z\",\"sameSite\":\"lax\",\"id\":\"855661404893068\"},{\"key\":\
+  \"XSRF-TOKEN\",\"value\":\"eyJpdiI6InF5VUVUMEJYakhYMit5Y0FzcGtEQ0E9PSIsInZhbH\
+  VlIjoiTXBWVlJpc1RsVmJFb3hNWDBwQTdSbk5adVJYbWVIZ05iSEhUdDJOMDB3Rk1pdElIM2lSK2h\
+  5MlRTVWkxQnF3YlBYNVk1cjNKa1ZOdHpXaEJ5UWVPNk5QSUhUd3pDbWtxeS9aOHBmOUpEUThGelRZ\
+  R2J2ZC9PUGVxdjk2eFl6T2oiLCJtYWMiOiJjYjZkNzY1MDMwNmI2NTgyYTdlMmNlZDc1OTEzNDhiN\
+  jExN2FlM2NlZjM5MDdhYmQzMzhlMTM4MWVkNzMxZGFhIiwidGFnIjoiIn0%3D\",\"expires\":\
+  \"2024-01-09T08:42:13.000Z\",\"maxAge\":7200,\"domain\":\"tittuppy-sale.000we\
+  bhostapp.com\",\"path\":\"/\",\"secure\":true,\"hostOnly\":true,\"creation\":\
+  \"2024-01-09T06:42:12.764Z\",\"lastAccessed\":\"2024-01-09T06:42:12.764Z\",\"\
+  sameSite\":\"lax\",\"id\":\"3280374163824662\"},{\"key\":\"laravel_session\",\
+  \"value\":\"eyJpdiI6InFmNk9aOHYvdERTYmwrUmZBNUZYU2c9PSIsInZhbHVlIjoiV2h3Q0dZc\
+  FVpSm0zbk9BbWFHazAzelp0UlhQMEkyRkQ1TXRVLzM3Sk16Z2FMdG0vaGhRNWpXQlBRTHk4anIrR1\
+  lqZ1ZuREdzL2hJM28vQkVoNWdtdStIWlcrYlVDTU1veFdxM3lVYlJZbk1pZzZyUk4vZFlCTldqOGp\
+  YdXhxVlQiLCJtYWMiOiIxYzg3MDNlOGJlN2YzMDJiNGQyMjIyNDhhOTU0MGE1MzljMWM5YjI1NDc5\
+  Mjg4N2IwNjNlMmUwNjM2ZTU4YTgxIiwidGFnIjoiIn0%3D\",\"expires\":\"2024-01-09T08:\
+  42:13.000Z\",\"maxAge\":7200,\"domain\":\"tittuppy-sale.000webhostapp.com\",\
+  \"path\":\"/\",\"httpOnly\":true,\"hostOnly\":true,\"creation\":\"2024-01-09T\
+  06:42:12.764Z\",\"lastAccessed\":\"2024-01-09T06:42:12.764Z\",\"sameSite\":\"\
+  lax\",\"id\":\"39648984999619374\"},{\"key\":\"access_token\",\"value\":\"eyJ\
+  hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Zjc5MDM2Y2E5NjgyNWQ2MWE0ZGJlYyI\
+  sImlhdCI6MTcxMDcyMzU2NX0.Yx1pAHCS3Vz6oIFbMPPXjnKq1El379ymLtN-m718SZc\",\"doma\
+  in\":\"localhost\",\"path\":\"/\",\"httpOnly\":true,\"hostOnly\":true,\"creat\
+  ion\":\"2024-02-09T10:53:53.682Z\",\"lastAccessed\":\"2024-03-18T00:59:25.728Z\
+  \",\"id\":\"622819979229712\"}],\"_type\":\"cookie_jar\"},{\"_id\":\"env_4769\
+  357faae04606bca1616dae5cd37c\",\"parentId\":\"env_1a0f2d0f7d07bba02453237b279\
+  9abcf4eaf5b26\",\"modified\":1709619147650,\"created\":1707290532404,\"name\":\
+  \"dev\",\"data\":{\"api_endpoint\":\"http://localhost:3080/api\"},\"dataPrope\
+  rtyOrder\":{\"&\":[\"api_endpoint\"]},\"color\":null,\"isPrivate\":false,\"me\
+  taSortKey\":1707290532404,\"_type\":\"environment\"}]}"
+contentType: yaml

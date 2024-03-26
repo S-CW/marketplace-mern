@@ -1,0 +1,39 @@
+_id: req_d7568a557e3a4eb6b7612f1ea5ad2c50
+type: Request
+parentId: fld_8302f7dfbf4c42edaebf5084421c9d7b
+modified: 1711468710227
+created: 1709563670109
+url: "{{ _.api_endpoint }}/listing/update/{% request 'parameter', 'id', 0 %}"
+name: Update Listing
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "La Villa",
+    	"description": "A bery nice place",
+    	"address": "No 190, My home Street"
+    }
+parameters:
+  - id: pair_de7c758e5df243388b69d7fa12a4daea
+    name: id
+    value: "{{ _.user_id }}"
+    description: ""
+    disabled: true
+    type: text
+    multiline: false
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1708695968155.625
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
