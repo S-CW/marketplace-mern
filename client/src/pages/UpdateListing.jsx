@@ -148,7 +148,7 @@ export default function UpdateListing() {
     e.preventDefault();
     try {
       if (formData.imageUrls.length < 1)
-        return setError("You must uplaod atleast one image");
+        return setError("You must upload atleast one image");
       if (formData.regularPrice < formData.discountPrice)
         return setError("Discount price must be lower than regular price");
 
