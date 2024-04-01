@@ -10,7 +10,7 @@ export default function () {
     parking: false,
     furnished: false,
     offer: false,
-    sort: "created_at",
+    sort: "createdAt",
     order: "desc",
   });
   const [loading, setLoading] = useState(false);
@@ -52,8 +52,9 @@ export default function () {
       setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
-      const data = await res.json();
+      let data = await res.json();
 
+      data = data.slice(0, 9);
       if (data.length > 8) {
         setShowMore(true);
       }
@@ -120,11 +121,14 @@ export default function () {
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
     const res = await fetch(`api/listing/get?${searchQuery}`);
-    const data = await res.json();
-
-    if (data.length < 9) {
+    let data = await res.json();
+    
+    // if data length is more than 9 means there is remaining data, but restrict to only load 9 data at a time
+    if (data.length <= 9) {
       setShowMore(false);
     }
+
+    data = data.slice(0, 9);
 
     setListings([...listings, ...data]);
   };
@@ -216,7 +220,7 @@ export default function () {
             <label className="font-semibold">Sort:</label>
             <select
               onChange={handleChange}
-              defaultValue={"created_at_desc"}
+              defaultValue={"createdAt_desc"}
               className="border rounded-lg p-3"
               id="sort_order"
             >
