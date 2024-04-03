@@ -1,0 +1,42 @@
+_id: req_8fd651131f4e402eabff4a88333b3b5d
+type: Request
+parentId: fld_8302f7dfbf4c42edaebf5084421c9d7b
+modified: 1711468653848
+created: 1708998450230
+url: "{{ _.api_endpoint }}/listing/create"
+name: Create Listing
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Da Villa Ouse",
+    	"description": "A very beautiful and wide mansion only for the riches",
+    	"address": "Rich Street 168",
+    	"regularPrice": 500,
+    	"discountPrice": 500,
+    	"bathrooms": 5,
+    	"bedrooms": 5,
+    	"furnished": true,
+    	"parking": true,
+    	"type": "rent",
+    	"offer": true,
+    	"imageUrls": ["img1.jpg", "img2.jpg"],
+    	"userRef": "{{ _.user_id }}"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1708998450230
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

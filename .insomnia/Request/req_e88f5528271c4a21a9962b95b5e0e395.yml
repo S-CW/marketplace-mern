@@ -1,0 +1,32 @@
+_id: req_e88f5528271c4a21a9962b95b5e0e395
+type: Request
+parentId: fld_86e16356249843c2a2ece427d8cdd40c
+modified: 1711468766441
+created: 1707873001238
+url: "{{ _.api_endpoint }}/user/delete/{% request 'parameter', 'id', 0 %}"
+name: Delete User
+description: ""
+method: DELETE
+body:
+  mimeType: application/json
+  text: ""
+parameters:
+  - id: pair_e6330f55383a4569bd352c3066c96a2c
+    name: id
+    value: "{{ _.user_id }}"
+    description: ""
+    disabled: true
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1707788517236
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

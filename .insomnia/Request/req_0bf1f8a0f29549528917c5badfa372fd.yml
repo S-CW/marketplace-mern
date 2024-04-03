@@ -1,0 +1,34 @@
+_id: req_0bf1f8a0f29549528917c5badfa372fd
+type: Request
+parentId: fld_8302f7dfbf4c42edaebf5084421c9d7b
+modified: 1711468721218
+created: 1709575819118
+url: "{{ _.api_endpoint }}/listing/get/{% request 'parameter', 'id', 0 %}"
+name: Get Listing
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters:
+  - id: pair_de7c758e5df243388b69d7fa12a4daea
+    name: id
+    value: "{{ _.user_id }}"
+    description: ""
+    disabled: true
+    type: text
+    multiline: false
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1708544727118.4375
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

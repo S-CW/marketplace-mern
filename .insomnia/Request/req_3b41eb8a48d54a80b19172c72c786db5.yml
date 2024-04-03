@@ -1,0 +1,36 @@
+_id: req_3b41eb8a48d54a80b19172c72c786db5
+type: Request
+parentId: fld_86e16356249843c2a2ece427d8cdd40c
+modified: 1711468754975
+created: 1707788526429
+url: "{{ _.api_endpoint }}/user/update/{% request 'parameter', 'id', 0 %}"
+name: Update User
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username": "aaa",
+    	"email": "test@gmail.com"
+    }
+parameters:
+  - id: pair_0f4eca763ceb45e78fa1f292a2603267
+    name: id
+    value: "{{ _.user_id }}"
+    description: ""
+    disabled: true
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1707788521832.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

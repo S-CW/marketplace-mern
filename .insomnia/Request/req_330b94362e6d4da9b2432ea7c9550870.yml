@@ -1,0 +1,34 @@
+_id: req_330b94362e6d4da9b2432ea7c9550870
+type: Request
+parentId: fld_8302f7dfbf4c42edaebf5084421c9d7b
+modified: 1711468728757
+created: 1709513218024
+url: "{{ _.api_endpoint }}/listing/delete/{% request 'parameter', 'id', 0 %}"
+name: Delete Listing
+description: ""
+method: DELETE
+body:
+  mimeType: application/json
+  text: ""
+parameters:
+  - id: pair_ab069b9092d54d72b3e317a626de8fe8
+    name: id
+    value: "{{ _.user_id }}"
+    description: ""
+    type: text
+    multiline: false
+    disabled: true
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1708393486081.25
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
