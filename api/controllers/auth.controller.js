@@ -2,6 +2,8 @@ import User from '../models/user.model.js'
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
+import { sendEmail } from '../utils/sendEmail.js';
+
 
 export const signUp = async (req, res, next) =>
 {
@@ -16,6 +18,7 @@ export const signUp = async (req, res, next) =>
         next(error);
     }
 };
+
 
 export const signIn = async (req, res, next) =>
 {
@@ -39,15 +42,17 @@ export const signIn = async (req, res, next) =>
     }
 };
 
+
 export const signOut = async (req, res, next) =>
 {
     try {
         res.clearCookie('access_token');
         res.status(200).json('User has been logged out!');
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
+
 
 export const google = async (req, res, next) =>
 {
@@ -72,6 +77,24 @@ export const google = async (req, res, next) =>
                 .json(rest);
         }
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
+
+
+export const forgotPassword = async (req, res, next) =>
+{
+    const email = req.body.email;
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) return next(errorHandler(404, 'User not found!'));
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30s' });
+
+        const response = await sendEmail(token, { recipient: email, subject: 'Trial Market: Reset Password', filePath: 'api/resources/views/reset_password_email.html' });
+
+        res.json(response);
+    } catch (error) {
+        next(error);
+    }
+}
