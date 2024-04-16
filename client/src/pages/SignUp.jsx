@@ -13,21 +13,21 @@ export default function SignUp() {
       ...formData,
       [e.target.id]: e.target.value,
     });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      setLoading(true)
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
+      setLoading(true);
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-  
+
       const data = await res.json();
 
       if (data.success === false) {
@@ -35,14 +35,13 @@ export default function SignUp() {
         setError(data.message);
         return;
       }
-      setLoading(false)
-      setError(null)
-      navigate('/sign-in')
+      setLoading(false);
+      setError(null);
+      navigate("/sign-in");
     } catch (error) {
-      setLoading(false)
-      setError(error.message)
+      setLoading(false);
+      setError(error.message);
     }
-
   };
 
   return (
@@ -70,12 +69,15 @@ export default function SignUp() {
           id="password"
           onChange={handleChange}
         />
-        <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-          {loading ? 'Loading...' : 'Sign Up'}
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "Loading..." : "Sign Up"}
         </button>
         <OAuth />
       </form>
-      <div className="flex gap-2">
+      <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
         <Link to={"/sign-in"}>
           <span className="text-blue-700">Sign in</span>

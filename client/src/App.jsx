@@ -11,6 +11,7 @@ import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import { Toaster } from "react-hot-toast";
 import Search from "./pages/Search";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/about" element={<About />} />
         <Route path="/listing/:listingId" element={<Listing />}></Route>
         <Route path="/search" element={<Search />} />
