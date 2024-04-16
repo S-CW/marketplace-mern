@@ -88,12 +88,35 @@ export const forgotPassword = async (req, res, next) =>
         const user = await User.findOne({ email: email });
         if (!user) return next(errorHandler(404, 'Email is not registered!'));
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30s' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30m' });
 
-        const response = await sendEmail(token, { recipient: email, subject: 'Trial Market: Reset Password', filePath: 'api/resources/views/reset_password_email.html' });
+        let response = await sendEmail(token, { recipient: email, subject: 'Trial Market: Reset Password', filePath: 'api/resources/views/reset_password_email.html' });
+
+        response = { token: token, ...response }
 
         res.json(response);
     } catch (error) {
         next(error);
+    }
+}
+
+
+export const resetPassword = async (req, res, next) =>
+{
+    try {
+        // verify jwt token from user
+        const decodedToken = jwt.verify(req.query.token, process.env.JWT_SECRET);
+        if (!decodedToken) return errorHandler(401, 'Token has expired or invalid');
+
+        const user = await User.findById(decodedToken.userId);
+        if (!user) return errorHandler(404, 'User not found!');
+
+        const newPassword = bcryptjs.hashSync(req.body.newPassword, 10);
+        user.password = newPassword;
+        await user.save();
+
+        return res.status(200).json('Password updated!');
+    } catch (error) {
+        next(error)
     }
 }

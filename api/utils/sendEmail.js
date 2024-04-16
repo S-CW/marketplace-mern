@@ -7,7 +7,7 @@ export const sendEmail = async (token, {recipient, subject, filePath}) =>
 {
     const readFile = promisify(fs.readFile);
     const html = await readFile(filePath, 'utf8');
-    const appURL = `${process.env.APP_URL}/reset-password/?pcode=${token}`
+    const appURL = `${process.env.APP_URL}/reset-password?token=${token}`
 
     const template = Handlebars.compile(html);
     const data = {
