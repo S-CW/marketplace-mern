@@ -7,10 +7,11 @@ export const sendEmail = async (token, {recipient, subject, filePath}) =>
 {
     const readFile = promisify(fs.readFile);
     const html = await readFile(filePath, 'utf8');
+    const appURL = `${process.env.APP_URL}/reset-password/?pcode=${token}`
 
     const template = Handlebars.compile(html);
     const data = {
-        token: token
+        refLink: appURL,
     };
     const email = template(data);
 
@@ -22,6 +23,9 @@ export const sendEmail = async (token, {recipient, subject, filePath}) =>
             user: process.env.MAIL_USERNAME,
             pass: process.env.MAIL_PASSWORD
         },
+        tls: {
+            rejectUnauthorized: process.env.APP_DEBUG ? false : true
+        }
     });
 
     const mailOptions = {

@@ -8,7 +8,6 @@ import { sendEmail } from '../utils/sendEmail.js';
 export const signUp = async (req, res, next) =>
 {
     const { username, email, password } = req.body;
-
     try {
         const hashPassword = bcryptjs.hashSync(password, 10);
         const newUser = new User({ username, email, password: hashPassword });
@@ -87,7 +86,7 @@ export const forgotPassword = async (req, res, next) =>
     const email = req.body.email;
     try {
         const user = await User.findOne({ email: email });
-        if (!user) return next(errorHandler(404, 'User not found!'));
+        if (!user) return next(errorHandler(404, 'Email is not registered!'));
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30s' });
 
