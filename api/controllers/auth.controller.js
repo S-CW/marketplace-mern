@@ -88,10 +88,9 @@ export const forgotPassword = async (req, res, next) =>
         const user = await User.findOne({ email: email });
         if (!user) return next(errorHandler(404, 'Email is not registered!'));
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30m' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '2m' });
 
         let response = await sendEmail(token, { recipient: email, subject: 'Trial Market: Reset Password', filePath: 'api/resources/views/reset_password_email.html' });
-
         response = { token: token, ...response }
 
         res.json(response);

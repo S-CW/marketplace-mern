@@ -16,7 +16,7 @@ export default function ForgotPassword() {
   });
 
   useEffect(() => {
-    if (sent && Math.floor((timer % (1000 * 60)) / 1000) > -1) {
+    if (sent && Math.floor(timer / 1000) > -1) {
       const interval = setInterval(() => {
         setTimer(localStorage.getItem("targetTime") - new Date().getTime());
       }, 1000);
@@ -37,7 +37,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     try {
       setSent(true);
-      const countDown = new Date().getTime() + 30 * 1000;
+      const countDown = new Date().getTime() + 2 * 60 * 1000;
       localStorage.setItem("targetTime", countDown);
       setTimer(countDown);
 
@@ -64,22 +64,24 @@ export default function ForgotPassword() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="max-w-lg p-8 sm:m-28 sm:border border-slate-300 rounded-md">
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col flex-1 gap-6 text-center"
-        >
+      <div className="max-w-lg p-8 sm:m-28 sm:border border-slate-300 rounded-md w-full">
+        <div className="flex flex-col gap-6 mb-6 text-center">
           <h1 className="text-3xl font-semibold mt-10">Reset Password</h1>
           <p className="text-slate-500">
             Please enter the email to your account. A link will be sent to your
             email to reset password
           </p>
+        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col flex-1 gap-6 text-center"
+        >
           <input
             className="border p-3 rounded-lg"
             type="text"
             placeholder={
               sent
-                ? `Try again in ${Math.floor((timer % (1000 * 60)) / 1000)}s`
+                ? `Try again in ${Math.floor(timer / 1000)}s`
                 : "Your email address"
             }
             value={email}

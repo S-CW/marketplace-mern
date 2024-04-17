@@ -13,6 +13,7 @@
     "@headlessui/react": "^1.7.18",
     "@reduxjs/toolkit": "^2.1.0",
     "firebase": "^10.8.0",
+    "jose": "^5.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
