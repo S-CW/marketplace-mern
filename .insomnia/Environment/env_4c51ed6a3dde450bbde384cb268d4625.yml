@@ -1,0 +1,14 @@
+_id: env_4c51ed6a3dde450bbde384cb268d4625
+type: Environment
+parentId: env_b539740030e54f59d2bab8af6b45415bb7532814
+modified: 1709619147650
+created: 1707290532404
+name: dev
+data:
+  api_endpoint: http://localhost:3080/api
+dataPropertyOrder:
+  "&":
+    - api_endpoint
+color: null
+isPrivate: false
+metaSortKey: 1707290532404

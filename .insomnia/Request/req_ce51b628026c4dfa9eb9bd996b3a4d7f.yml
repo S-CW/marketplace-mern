@@ -1,18 +1,17 @@
-_id: req_23ac8724464243fdb63fdba9ddceeead
+_id: req_ce51b628026c4dfa9eb9bd996b3a4d7f
 type: Request
-parentId: fld_fc2bb3164fdf401293a2a1f6c97ea162
-modified: 1709869547156
-created: 1707475668362
-url: "{{ _.api_endpoint }}/auth/signin"
-name: Sign In
+parentId: fld_3caa6b33679243a78ee07799424230b7
+modified: 1713344318005
+created: 1712161130683
+url: "{{ _.api_endpoint }}/auth/forgot-password"
+name: Forgot password
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-    	"email": "test@gmail.com",
-    	"password": "123"
+    	"email": "jaysoncheng999@gmail.com"
     }
 parameters: []
 headers:
@@ -21,7 +20,7 @@ headers:
   - name: User-Agent
     value: insomnia/2023.5.8
 authentication: {}
-metaSortKey: -1707788508043
+metaSortKey: -1712161130683
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

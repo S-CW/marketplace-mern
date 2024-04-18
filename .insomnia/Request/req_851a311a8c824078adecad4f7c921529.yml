@@ -1,0 +1,36 @@
+_id: req_851a311a8c824078adecad4f7c921529
+type: Request
+parentId: fld_3caa6b33679243a78ee07799424230b7
+modified: 1713344298108
+created: 1713287671398
+url: "{{ _.api_endpoint }}/auth/reset-password"
+name: Reset password
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"newPassword": "fakepass",
+    	"confirmPassword": "fakepass",
+    }
+parameters:
+  - id: pair_36b0ef4fe44f46de9847011024f4dc5a
+    name: token
+    value: "{% response 'body', 'req_1a17cc96c87440f4adc67c79c1065ed4',
+      'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+    description: ""
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1711628554865.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

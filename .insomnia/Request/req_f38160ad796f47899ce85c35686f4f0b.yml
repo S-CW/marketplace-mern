@@ -1,0 +1,31 @@
+_id: req_f38160ad796f47899ce85c35686f4f0b
+type: Request
+parentId: fld_3caa6b33679243a78ee07799424230b7
+modified: 1711698135951
+created: 1707475668362
+url: "{{ _.api_endpoint }}/auth/signin"
+name: Sign In
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"email": "test@gmail.com",
+    	"password": "123"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1707788508043
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
