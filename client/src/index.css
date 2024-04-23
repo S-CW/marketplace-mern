@@ -5,3 +5,9 @@
 body {
     background-color: rgb(241, 245, 241);
 }
+
+@media (hover) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+}
