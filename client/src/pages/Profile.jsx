@@ -1,110 +1,53 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "../firebase";
-import {
   clearErrorMessage,
   clearUser,
   setErrorMessage,
   startLoading,
-  updateUserSuccess,
 } from "../redux/user/userSlice";
 import { Link } from "react-router-dom";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import toast from "react-hot-toast";
+import ListingItem from "../components/ListingItem";
+import { useOnClickOutside } from "../hooks/FocusHooks";
+import { FaHandHoldingMedical, FaRegHeart } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const fileRef = useRef(null);
-  const listingRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
-  const [file, setFile] = useState(undefined);
-  const [filePct, setFilePct] = useState(0);
-  const [fileUploadError, setFileUploadError] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [openDialog, setOpenDialog] = useState(null);
   const [id, setId] = useState(null);
-
-  // allow read;
-  // allow write: if
-  // request.resource.size < 2 * 1024 * 1024 &&
-  // request.resource.contentType.matches('image/.*');
+  const [expand, setExpand] = useState(false);
+  const dropdown = useRef();
+  useOnClickOutside(dropdown, () => {
+    setExpand(false);
+  });
 
   useEffect(() => {
-    if (file) {
-      handleFileUpload(file);
-    }
+    const getListings = async () => {
+      try {
+        const res = await fetch(`/api/user/listings/${currentUser._id}`);
+        const data = await res.json();
 
-    if (userListings) {
-      listingRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+        if (data.success === false) {
+          return;
+        }
+
+        setUserListings(data);
+      } catch (error) {
+        setShowListingsError(true);
+      }
+    };
+
+    getListings();
     return () => {
       dispatch(clearErrorMessage());
     };
-  }, [file, dispatch, userListings]);
-
-  const handleFileUpload = (file) => {
-    const storage = getStorage(app);
-    const filename = new Date().getTime() + file.name;
-    const storageRef = ref(storage, filename);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePct(Math.round(progress));
-      },
-      (error) => {
-        setFileUploadError(true);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downLoadURL) => {
-          setFormData({ ...formData, avatar: downLoadURL });
-        });
-      }
-    );
-  };
-
-  const handleChange = (e) => {
-    setUpdateSuccess(false);
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      dispatch(startLoading());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(setErrorMessage(data.message));
-        return;
-      }
-
-      dispatch(updateUserSuccess(data));
-      setFilePct(0);
-      setUpdateSuccess(true);
-    } catch (error) {
-      dispatch(setErrorMessage(error.message));
-    }
-  };
+  }, [dispatch, userListings]);
 
   const handleDeleteUser = async () => {
     try {
@@ -143,198 +86,192 @@ export default function Profile() {
     }
   };
 
-  const handleShowListings = async () => {
-    try {
-      setShowListingsError(false);
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
-      const data = await res.json();
+  const joinedDate = currentUser.createdAt;
+  const currentDate = new Date();
+  function getJoinPeriod(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = endDate ? new Date(endDate) : new Date();
 
-      if (data.success === false) {
-        setShowListingsError(true);
-        return;
+    let years = end.getUTCFullYear() - start.getUTCFullYear();
+    let months = end.getUTCMonth() - start.getUTCMonth();
+    let duration = "";
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    if (years !== 0) {
+      duration += `${years} year${years !== 1 ? "s" : ""}`;
+    }
+
+    if (months !== 0) {
+      if (years !== 0) {
+        duration += ", ";
       }
 
-      setUserListings(data);
-    } catch (error) {
-      setShowListingsError(true);
+      duration += `${months} month${months !== 1 ? "s" : ""}`;
     }
-  };
 
-  const handleListingDelete = async (listingId) => {
-    try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-
-      if (data.success === false) {
-        toast.error(data.message);
-        return;
-      }
-
-      setUserListings((prev) =>
-        prev.filter((listing) => listing._id !== listingId)
-      );
-      setOpenDialog(false);
-      toast.success("Successfully deleted listing!");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+    return duration === "" ? "New user" : duration;
+  }
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4" action="">
-        <input
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          ref={fileRef}
-          accept="image/*"
-          hidden
-        />
+    <div className="p-3 max-w-7xl mx-auto flex flex-col">
+      <div>
         <img
-          onClick={() => fileRef.current.click()}
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center"
-          src={formData.avatar || currentUser.avatar}
-          alt="profile"
+          className="object-cover w-full h-32"
+          src="https://imgv3.fotor.com/images/share/Free-blue-gradient-pattern-background-from-Fotor.jpg"
+          alt=""
         />
-        <p className="text-sm self-center">
-          {fileUploadError ? (
-            <span className="text-red-700">
-              Error Image Upload (image must be less than 2mb)
-            </span>
-          ) : filePct > 0 && filePct < 100 ? (
-            <span className="text-slate-700">{`Uploading ${filePct}%`}</span>
-          ) : filePct === 100 ? (
-            <span className="text-green-700">Image successfully uploaded!</span>
-          ) : (
-            ""
-          )}
-        </p>
-        <input
-          className="border p-3 rounded-lg"
-          type="text"
-          placeholder="username"
-          id="username"
-          defaultValue={currentUser.username}
-          onChange={handleChange}
-        />
-        <input
-          className="border p-3 rounded-lg"
-          type="email"
-          placeholder="email"
-          id="email"
-          defaultValue={currentUser.email}
-          onChange={handleChange}
-        />
-        <input
-          className="border p-3 rounded-lg"
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-        />
-        <button
-          disabled={loading}
-          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
-        >
-          {loading ? "Loading..." : "Update"}
-        </button>
-        <Link
-          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
-          to={"/create-listing"}
-        >
-          Create Listing
-        </Link>
-      </form>
-      <div className="flex justify-between mt-5">
-        <span
-          onClick={() => {
-            setId(currentUser._id);
-            setOpenDialog("user");
-          }}
-          className="text-red-700 cursor-pointer"
-        >
-          Delete account
-        </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
-          Sign out
-        </span>
       </div>
-      <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5">
-        {updateSuccess ? "User is updated successfully" : ""}
-      </p>
-      <div className="flex justify-center">
-        <button onClick={handleShowListings} className="text-green-700">
-          {userListings.length < 1 ? "Show Listings" : ""}
-        </button>
-      </div>
-      <p className="text-red-700 mt-5">
-        {showListingsError ? "Error showing listings" : ""}
-      </p>
+      <div className="flex flex-col md:flex-row">
+        <div className="p-3 -mt-20 md:-mt-[76px]  md:w-[324px]">
+          <div className="flex flex-col gap-4 text-slate-700">
+            <div className="relative">
+              <img
+                className="rounded-full h-36 w-36 object-cover border-4 border-slate-100"
+                src={currentUser.avatar}
+                alt="profile"
+              />
+              {currentUser && (
+                <Link to="/settings">
+                  <button className="bottom-0 right-5 absolute hover:underline">
+                    Edit Profile
+                  </button>
+                </Link>
+              )}
+            </div>
+            <h2 className="text-2xl font-semibold">
+              {currentUser.username}{" "}
+              <span className="text-sm text-gray-400">+601117577805</span>
+            </h2>
+            <div className="flex gap-5">
 
-      {userListings && userListings.length > 0 && (
-        <div ref={listingRef} className="flex flex-col gap-4">
-          <h1 className="text-center mt-7 text-2xl font-semibold">
-            Your Listings
-          </h1>
-          {userListings.map((listing) => (
-            <div
-              key={listing._id}
-              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+            <div className="flex gap-2 items-center">
+              <MdLocationOn />
+              <p>Johor Bahru</p>
+            </div>
+            <div className="flex gap-2 items-center">
+              <FaHandHoldingMedical />
+              <p>Joined {getJoinPeriod(joinedDate, currentDate)}</p>
+            </div>
+            </div>
+            <p> {currentUser.description ?? "This is a description example"}</p>
+
+            <div className="flex items-center gap-1">
+              <FaRegHeart className="h-4 w-4 ms-auto" />
+              <p>{currentUser.likes.length}</p>
+            </div>
+          </div>
+          <div className="flex justify-between mt-5">
+            <span
+              onClick={() => {
+                setId(currentUser._id);
+                setOpenDialog("user");
+              }}
+              className="text-red-700 cursor-pointer"
             >
-              <Link to={`/listing/${listing._id}`}>
-                <img
-                  className="h-16 w-16 object-contain"
-                  src={listing.imageUrls[0]}
-                  alt="listing cover"
-                />
+              Delete account
+            </span>
+            <span
+              onClick={handleSignOut}
+              className="text-red-700 cursor-pointer"
+            >
+              Sign out
+            </span>
+          </div>
+          <p className="text-red-700 mt-5">{error ? error : ""}</p>
+        </div>
+        <div className="flex-1">
+          <div className="flex flex-col gap-4 text-center">
+            <div className="inline-flex mt-2">
+              <Link
+                className="p-2 hover:border-b-2 border-gray-300"
+                to={"/create-listing"}
+              >
+                <p>Create Listing</p>
               </Link>
               <Link
-                className="text-slate-700 font-semibold flex-1 hover:underline truncate"
-                to={`/listing/${listing._id}`}
+                className="p-2 hover:border-b-2 border-gray-300"
+                to={"/profile"}
               >
-                <p>{listing.name}</p>
+                <p>Manage Listing</p>
               </Link>
-
-              <div className="flex flex-col item-center">
-                <button
-                  onClick={() => {
-                    setId(listing._id);
-                    setOpenDialog("listing");
-                  }}
-                  className="text-red-700 uppercase"
-                >
-                  Delete
-                </button>
-                <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase">Edit</button>
-                </Link>
-              </div>
+              {!currentUser && (
+                <div className="flex flex-row items-center gap-5 ms-auto">
+                  <button className="outline outline-slate-300 rounded p-1 px-4 hover:bg-slate-200">
+                    Like
+                  </button>
+                  <div className="relative">
+                    <button
+                      ref={dropdown}
+                      onClick={() => {
+                        setExpand(!expand);
+                      }}
+                      className="p-2"
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.95 13.45a1.44 1.44 0 0 1 2.1 0 1.44 1.44 0 0 1 0 2.1 1.44 1.44 0 0 1-2.1 0 1.44 1.44 0 0 1 0-2.1zm0-6a1.44 1.44 0 0 1 2.1 0 1.44 1.44 0 0 1 0 2.1 1.44 1.44 0 0 1-2.1 0 1.44 1.44 0 0 1 0-2.1zm2.1-3.9a1.44 1.44 0 0 1-2.1 0 1.44 1.44 0 0 1 0-2.1 1.44 1.44 0 0 1 2.1 0 1.44 1.44 0 0 1 0 2.1z"
+                          fill="#57585a"
+                          fill-rule="nonzero"
+                        ></path>
+                      </svg>
+                    </button>
+                    {expand && (
+                      <ul className="right-0 absolute mt-2 shadow-xl">
+                        <li className="">
+                          <button className="bg-red-700 rounded p-1 px-4 text-white hover:text-opacity-85">
+                            Report
+                          </button>
+                        </li>
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
-      <DeleteConfirmation
-        isOpen={openDialog === "user"}
-        remove={handleDeleteUser}
-        cancel={() => setOpenDialog(false)}
-        messageTitle="Delete User"
-        messageContent="Are you sure you want to delete your account?
+            <h1 className="text-center text-2xl font-semibold">My Listings</h1>
+            {userListings && userListings.length > 0 ? (
+              <div className="flex flex-wrap gap-4">
+                {userListings.map((listing) => (
+                  <ListingItem
+                    key={listing._id}
+                    listing={listing}
+                    containerClass="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg sm:w-[150px] w-full"
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="inline-block text-gray-400 h-64 place-content-center">
+                {currentUser ? (
+                  <p>
+                    Looks kinda empty here...{" "}
+                    <Link to="/create-listing" className="text-blue-500">
+                      add listing
+                    </Link>
+                  </p>
+                ) : (
+                  <p>User has not create a listing yet</p>
+                )}
+              </div>
+            )}
+          </div>
+          <DeleteConfirmation
+            isOpen={openDialog === "user"}
+            remove={handleDeleteUser}
+            cancel={() => setOpenDialog(false)}
+            messageTitle="Delete User"
+            messageContent="Are you sure you want to delete your account?
         All data will be deleted. This action cannot be undone."
-        id={id}
-      />
-      <DeleteConfirmation
-        isOpen={openDialog === "listing"}
-        remove={handleListingDelete}
-        cancel={() => setOpenDialog(false)}
-        messageTitle="Delete Listing"
-        messageContent="Are you sure you want to delete the selected listing?
-        Listing will be remove. This action cannot be undone."
-        id={id}
-      />
+            id={id}
+          />
+        </div>
+      </div>
     </div>
   );
 }

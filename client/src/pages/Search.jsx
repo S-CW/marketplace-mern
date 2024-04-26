@@ -122,7 +122,7 @@ export default function () {
     const searchQuery = urlParams.toString();
     const res = await fetch(`api/listing/get?${searchQuery}`);
     let data = await res.json();
-    
+
     // if data length is more than 9 means there is remaining data, but restrict to only load 9 data at a time
     if (data.length <= 9) {
       setShowMore(false);
@@ -235,11 +235,11 @@ export default function () {
           </button>
         </form>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 max-w-7xl">
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
           Listing results:
         </h1>
-        <div className="p-7 flex flex-wrap gap-4">
+        <div className="p-7 flex flex-wrap">
           {!loading && listings.length === 0 && (
             <p className="text-xl text-slate-700">No listing found!</p>
           )}

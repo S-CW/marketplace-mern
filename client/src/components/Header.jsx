@@ -119,7 +119,7 @@ export default function Header() {
               {showDropdown && (
                 <ul
                   className={
-                    "dropdown-menu right-0 sm:left-0 absolute w-[250px]  sm:min-w-max bg-slate-100 shadow-xl items-center rounded"
+                    "dropdown-menu right-0 sm:left-0 absolute w-[250px] sm:min-w-max bg-slate-100 shadow-xl items-center rounded"
                   }
                 >
                   <Link to="/profile">
@@ -138,7 +138,7 @@ export default function Header() {
                         <div className="rounded-full h-7 w-7 flex justify-center items-center bg-slate-50 border-2">
                           <FaThList className="text-sky-800 h-4 w-4" />
                         </div>
-                        <span>My listings</span>
+                        <span>Manage listings</span>
                       </div>
                     </li>
                   </Link>
