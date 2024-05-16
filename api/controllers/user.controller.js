@@ -9,7 +9,7 @@ export const updateUser = async (req, res, next) =>
     const { street, city, state, country } = req.body.contactInfo.address
     const phoneNumber = req.body.contactInfo.phoneNumber
 
-    const updatedConnectInfo = {
+    const updatedContactInfo = {
         phoneNumber: phoneNumber,
         address: {
             street: street,
@@ -32,7 +32,7 @@ export const updateUser = async (req, res, next) =>
                 email: req.body.email,
                 password: req.body.password,
                 avatar: req.body.avatar,
-                connectInfo: updatedConnectInfo,
+                contactInfo: updatedContactInfo,
                 description: req.body.description,
             }
         }, { new: true });
@@ -62,15 +62,12 @@ export const deleteUser = async (req, res, next) =>
 
 export const getUserListings = async (req, res, next) =>
 {
-    if (req.user.id === req.params.id) {
-        try {
-            const listings = await Listing.find({ userRef: req.params.id });
-            return res.status(200).json(listings);
-        } catch (error) {
-            next(error)
-        }
-    } else {
-        return next(errorHandler(401, 'You can only view your own listings!'));
+    try {
+        const listings = await Listing.find({ userRef: req.params.id });
+
+        return res.status(200).json(listings);
+    } catch (error) {
+        next(error)
     }
 }
 
