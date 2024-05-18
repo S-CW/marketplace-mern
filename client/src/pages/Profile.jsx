@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearErrorMessage,
@@ -10,23 +10,17 @@ import { Link } from "react-router-dom";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import toast from "react-hot-toast";
 import ListingItem from "../components/ListingItem";
-import { useOnClickOutside } from "../hooks/FocusHooks";
 import { FaHandHoldingMedical, FaRegHeart } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const { currentUser, loading, error } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [openDialog, setOpenDialog] = useState(null);
-  const [id, setId] = useState(null);
-  const [expand, setExpand] = useState(false);
-  const dropdown = useRef();
-  useOnClickOutside(dropdown, () => {
-    setExpand(false);
-  });
 
+  console.log(currentUser)
   useEffect(() => {
     const getListings = async () => {
       try {
@@ -34,10 +28,12 @@ export default function Profile() {
         const data = await res.json();
 
         if (data.success === false) {
+          setShowListingsError(true);
           return;
         }
 
         setUserListings(data);
+        setShowListingsError(false);
       } catch (error) {
         setShowListingsError(true);
       }
@@ -47,7 +43,7 @@ export default function Profile() {
     return () => {
       dispatch(clearErrorMessage());
     };
-  }, [dispatch, userListings]);
+  }, [dispatch]);
 
   const handleDeleteUser = async () => {
     try {
@@ -56,9 +52,9 @@ export default function Profile() {
         method: "DELETE",
       });
 
-      const data = res.json();
+      const data = await res.json();
       if (data.success === false) {
-        dispatch(setErrorMessage(data.error));
+        dispatch(setErrorMessage(data.message));
         return;
       }
       dispatch(clearUser());
@@ -73,7 +69,7 @@ export default function Profile() {
     try {
       dispatch(startLoading());
       const res = await fetch("/api/auth/signout");
-      const data = res.json();
+      const data = await res.json();
       if (data.success === false) {
         dispatch(setErrorMessage(data.message));
         return;
@@ -86,7 +82,6 @@ export default function Profile() {
     }
   };
 
-  const joinedDate = currentUser.createdAt;
   const currentDate = new Date();
   function getJoinPeriod(startDate, endDate) {
     const start = new Date(startDate);
@@ -144,20 +139,33 @@ export default function Profile() {
             </div>
             <h2 className="text-2xl font-semibold">
               {currentUser.username}{" "}
-              <span className="text-sm text-gray-400">+601117577805</span>
+              {currentUser.contactInfo && (
+                <span className="text-sm text-gray-400">
+                  {currentUser.contactInfo.phoneNumber}
+                </span>
+              )}
             </h2>
             <div className="flex gap-5">
-
-            <div className="flex gap-2 items-center">
-              <MdLocationOn />
-              <p>Johor Bahru</p>
+              <div className="flex gap-2 items-center">
+                <MdLocationOn />
+                <p>
+                  {currentUser.contactInfo
+                    ? currentUser.contactInfo.address.city ||
+                      "No detail provided"
+                    : "No detail provided"}
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <FaHandHoldingMedical />
+                <p>
+                  Joined {getJoinPeriod(currentUser.createdAt, currentDate)}
+                </p>
+              </div>
             </div>
-            <div className="flex gap-2 items-center">
-              <FaHandHoldingMedical />
-              <p>Joined {getJoinPeriod(joinedDate, currentDate)}</p>
-            </div>
-            </div>
-            <p> {currentUser.description ?? "This is a description example"}</p>
+            <p className="text-slate-500 text-sm h-16">
+              {currentUser.description ??
+                "This user too lazy to include a description"}
+            </p>
 
             <div className="flex items-center gap-1">
               <FaRegHeart className="h-4 w-4 ms-auto" />
@@ -167,7 +175,6 @@ export default function Profile() {
           <div className="flex justify-between mt-5">
             <span
               onClick={() => {
-                setId(currentUser._id);
                 setOpenDialog("user");
               }}
               className="text-red-700 cursor-pointer"
@@ -183,9 +190,9 @@ export default function Profile() {
           </div>
           <p className="text-red-700 mt-5">{error ? error : ""}</p>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 m-2 border-2 border-slate-300">
           <div className="flex flex-col gap-4 text-center">
-            <div className="inline-flex mt-2">
+            <div className="inline-flex mt-2 ml-2">
               <Link
                 className="p-2 hover:border-b-2 border-gray-300"
                 to={"/create-listing"}
@@ -198,68 +205,36 @@ export default function Profile() {
               >
                 <p>Manage Listing</p>
               </Link>
-              {!currentUser && (
-                <div className="flex flex-row items-center gap-5 ms-auto">
-                  <button className="outline outline-slate-300 rounded p-1 px-4 hover:bg-slate-200">
-                    Like
-                  </button>
-                  <div className="relative">
-                    <button
-                      ref={dropdown}
-                      onClick={() => {
-                        setExpand(!expand);
-                      }}
-                      className="p-2"
-                    >
-                      <svg
-                        className="h-4 w-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6.95 13.45a1.44 1.44 0 0 1 2.1 0 1.44 1.44 0 0 1 0 2.1 1.44 1.44 0 0 1-2.1 0 1.44 1.44 0 0 1 0-2.1zm0-6a1.44 1.44 0 0 1 2.1 0 1.44 1.44 0 0 1 0 2.1 1.44 1.44 0 0 1-2.1 0 1.44 1.44 0 0 1 0-2.1zm2.1-3.9a1.44 1.44 0 0 1-2.1 0 1.44 1.44 0 0 1 0-2.1 1.44 1.44 0 0 1 2.1 0 1.44 1.44 0 0 1 0 2.1z"
-                          fill="#57585a"
-                          fill-rule="nonzero"
-                        ></path>
-                      </svg>
-                    </button>
-                    {expand && (
-                      <ul className="right-0 absolute mt-2 shadow-xl">
-                        <li className="">
-                          <button className="bg-red-700 rounded p-1 px-4 text-white hover:text-opacity-85">
-                            Report
-                          </button>
-                        </li>
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
             <h1 className="text-center text-2xl font-semibold">My Listings</h1>
-            {userListings && userListings.length > 0 ? (
-              <div className="flex flex-wrap gap-4">
-                {userListings.map((listing) => (
-                  <ListingItem
-                    key={listing._id}
-                    listing={listing}
-                    containerClass="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg sm:w-[150px] w-full"
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="inline-block text-gray-400 h-64 place-content-center">
-                {currentUser ? (
-                  <p>
-                    Looks kinda empty here...{" "}
-                    <Link to="/create-listing" className="text-blue-500">
-                      add listing
-                    </Link>
-                  </p>
-                ) : (
-                  <p>User has not create a listing yet</p>
-                )}
-              </div>
-            )}
+            {!showListingsError &&
+              (userListings.length > 0 ? (
+                <div className="p-3 flex flex-wrap gap-4">
+                  {userListings.map((listing) => (
+                    <ListingItem
+                      key={listing._id}
+                      listing={listing}
+                      containerClass="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg sm:w-[150px] w-full"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="inline-block text-gray-400 h-64 place-content-center">
+                  {currentUser ? (
+                    <p>
+                      Looks kinda empty here...{" "}
+                      <Link to="/create-listing" className="text-blue-500">
+                        add listing
+                      </Link>
+                    </p>
+                  ) : (
+                    <p>User has not create a listing yet</p>
+                  )}
+                </div>
+              ))}
+            <p className="text-red-700 mt-5">
+              {showListingsError ? "Error showing listings" : ""}
+            </p>
           </div>
           <DeleteConfirmation
             isOpen={openDialog === "user"}
@@ -268,7 +243,7 @@ export default function Profile() {
             messageTitle="Delete User"
             messageContent="Are you sure you want to delete your account?
         All data will be deleted. This action cannot be undone."
-            id={id}
+            id={currentUser._id}
           />
         </div>
       </div>

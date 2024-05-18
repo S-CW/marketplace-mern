@@ -13,6 +13,7 @@ import { Toaster } from "react-hot-toast";
 import Search from "./pages/Search";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import UserProfile from "./pages/UserProfile";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/listing/:listingId" element={<Listing />}></Route>
         <Route path="/search" element={<Search />} />
+        <Route path="/profile/:userId" element={<UserProfile />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />

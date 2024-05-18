@@ -2,15 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 
-export default function ListingItem({ listing }) {
+export default function ListingItem({ listing, containerClass }) {
   return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg sm:w-[330px] w-full">
+    <div className={containerClass}>
       <Link to={`/listing/${listing._id}`}>
         <img
-          src={
-            listing.imageUrls[0] ||
-            "images/market_cover_placeholder.jpeg"
-          }
+          src={listing.imageUrls[0] || "images/market_cover_placeholder.jpeg"}
           alt="listing cover"
           className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
         />

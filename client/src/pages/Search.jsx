@@ -239,7 +239,7 @@ export default function () {
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
           Listing results:
         </h1>
-        <div className="p-7 flex flex-wrap">
+        <div className="p-7 flex flex-wrap gap-4">
           {!loading && listings.length === 0 && (
             <p className="text-xl text-slate-700">No listing found!</p>
           )}
@@ -252,7 +252,11 @@ export default function () {
           {!loading &&
             listings &&
             listings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
+              <ListingItem
+                key={listing._id}
+                listing={listing}
+                containerClass="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg sm:w-[330px] w-full"
+              />
             ))}
 
           {showMore && (
