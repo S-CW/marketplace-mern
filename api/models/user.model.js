@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        maxLength: 100,
     },
     likes: {
         type: [String],
