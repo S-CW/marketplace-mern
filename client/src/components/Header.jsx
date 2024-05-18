@@ -119,7 +119,7 @@ export default function Header() {
               {showDropdown && (
                 <ul
                   className={
-                    "dropdown-menu right-0 sm:left-0 absolute w-[250px] sm:min-w-max bg-slate-100 shadow-xl items-center rounded"
+                    "dropdown-menu right-0 sm:left-0 absolute w-[250px] sm:min-w-max bg-slate-100 shadow-xl items-center rounded z-10"
                   }
                 >
                   <Link to="/profile">
