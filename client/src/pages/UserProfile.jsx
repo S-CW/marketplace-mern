@@ -6,7 +6,7 @@ import {
   setErrorMessage,
   startLoading,
 } from "../redux/user/userSlice";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import toast from "react-hot-toast";
 import ListingItem from "../components/ListingItem";
@@ -17,12 +17,14 @@ import { MdLocationOn } from "react-icons/md";
 export default function UserProfile() {
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
   const { currentUser, error } = useSelector((state) => state.user);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [openDialog, setOpenDialog] = useState(null);
   const [expand, setExpand] = useState(false);
   const [profile, setProfile] = useState(null);
+  const [like, setLike] = useState(false);
   const dropdown = useRef();
   useOnClickOutside(dropdown, () => {
     setExpand(false);
@@ -55,6 +57,11 @@ export default function UserProfile() {
           return;
         }
         setProfile(data);
+
+        const profileLikes = data.likes;
+        if (profileLikes.includes(currentUser._id)) {
+          setLike(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +72,7 @@ export default function UserProfile() {
     return () => {
       dispatch(clearErrorMessage());
     };
-  }, [dispatch, params.userId]);
+  }, [dispatch, params.userId, like]);
 
   const handleDeleteUser = async () => {
     try {
@@ -102,6 +109,25 @@ export default function UserProfile() {
     } catch (error) {
       dispatch(setErrorMessage(error.message));
     }
+  };
+
+  const handleLike = async () => {
+    if (!currentUser) {
+      toast("You are not logged in, please sign in first");
+      navigate("/sign-in");
+    }
+
+    const res = await fetch(`/api/user/like/${profile._id}`, {
+      method: "POST",
+    });
+
+    const data = await res.json();
+
+    if (data.success === false) {
+      return;
+    }
+
+    setLike(!like);
   };
 
   const currentDate = new Date();
@@ -251,17 +277,20 @@ export default function UserProfile() {
                   </div>
                 ) : (
                   <div className="flex flex-row items-center gap-2 ms-auto">
-                    <button className="outline outline-slate-300 rounded p-1 px-4 hover:bg-slate-200">
-                      Like
+                    <button
+                      onClick={handleLike}
+                      className="outline outline-slate-300 rounded p-1 px-4 hover:bg-slate-200"
+                    >
+                      {like ? "Unlike" : "Like"}
                     </button>
-                    <div className="relative">
-                      <button
-                        ref={dropdown}
-                        onClick={() => {
-                          setExpand(!expand);
-                        }}
-                        className="p-2"
-                      >
+                    <div
+                      className="relative"
+                      ref={dropdown}
+                      onClick={() => {
+                        setExpand(!expand);
+                      }}
+                    >
+                      <button className="p-2">
                         <svg
                           className="h-4 w-4"
                           xmlns="http://www.w3.org/2000/svg"
