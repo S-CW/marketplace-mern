@@ -130,6 +130,14 @@ export default function UserProfile() {
     setLike(!like);
   };
 
+  const handleReport = async () => {
+    console.log("reported!");
+    if (!currentUser) {
+      toast("You are not logged in, please sign in first");
+      navigate("/sign-in");
+    }
+  };
+
   const currentDate = new Date();
   function getJoinPeriod(startDate, endDate) {
     const start = new Date(startDate);
@@ -301,8 +309,11 @@ export default function UserProfile() {
                       </button>
                       {expand && (
                         <ul className="right-0 absolute mt-2 shadow-xl">
-                          <li className="">
-                            <button className="bg-red-700 rounded p-1 px-4 text-white hover:text-opacity-85">
+                          <li>
+                            <button
+                              onClick={handleReport}
+                              className="bg-red-700 rounded p-1 px-4 text-white hover:text-opacity-85"
+                            >
                               Report
                             </button>
                           </li>

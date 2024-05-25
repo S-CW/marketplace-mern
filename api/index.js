@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import userRouter from './route/user.route.js';
 import authRouter from './route/auth.route.js';
+import reportRouter from './route/report.route.js';
 import listingRouter from './route/listing.route.js';
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/report', reportRouter);
 app.use('/api/listing', listingRouter);
 
 

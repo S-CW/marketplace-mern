@@ -13,6 +13,7 @@ import { Toaster } from "react-hot-toast";
 import Search from "./pages/Search";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
 
 export default function App() {
@@ -35,6 +36,10 @@ export default function App() {
           <Route
             path="/update-listing/:listingId"
             element={<UpdateListing />}
+          />
+          <Route
+            path="/settings"
+            element={<Settings items={["1x", "2x", "3x", "4x or more"]} />}
           />
         </Route>
       </Routes>
